@@ -1,0 +1,256 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/background.css';
+
+const timeFrames = ['1day', '1week', '1month', '1year', 'Max'];
+
+const blogData = {
+  '1day': [
+    { time: '00:00', count: 1 },
+    { time: '06:00', count: 2 },
+    { time: '12:00', count: 3 },
+    { time: '18:00', count: 4 },
+    { time: '24:00', count: 5 }
+  ],
+  '1week': [
+    { day: 'Mon', count: 2 },
+    { day: 'Tue', count: 5 },
+    { day: 'Wed', count: 8 },
+    { day: 'Thu', count: 12 },
+    { day: 'Fri', count: 15 },
+    { day: 'Sat', count: 18 },
+    { day: 'Sun', count: 20 }
+  ],
+  '1month': [
+    { week: 'Week 1', count: 10 },
+    { week: 'Week 2', count: 25 },
+    { week: 'Week 3', count: 40 },
+    { week: 'Week 4', count: 60 }
+  ],
+  '1year': [
+    { month: 'Jan', count: 20 },
+    { month: 'Feb', count: 40 },
+    { month: 'Mar', count: 60 },
+    { month: 'Apr', count: 80 },
+    { month: 'May', count: 100 },
+    { month: 'Jun', count: 120 },
+    { month: 'Jul', count: 150 },
+    { month: 'Aug', count: 180 },
+    { month: 'Sep', count: 220 },
+    { month: 'Oct', count: 260 },
+    { month: 'Nov', count: 300 },
+    { month: 'Dec', count: 365 }
+  ],
+  'Max': [
+    { year: '2019', count: 100 },
+    { year: '2020', count: 200 },
+    { year: '2021', count: 400 },
+    { year: '2022', count: 700 },
+    { year: '2023', count: 1000 }
+  ]
+};
+---
+
+<style>
+  main h1 {
+    padding: 2rem;
+  }
+
+  .dashboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .chart-container {
+    width: 80%;
+    margin-bottom: 2rem;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+
+  .timeframe-buttons {
+    margin-bottom: 1rem;
+  }
+
+  .timeframe-buttons button {
+    padding: 0.5rem 1rem;
+    margin: 0 0.5rem;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .timeframe-buttons button.selected {
+    background-color: #61dafb;
+  }
+
+  .chart {
+    width: 100%;
+    height: 200px;
+    border: 1px solid #ddd;
+    position: relative;
+  }
+
+  .chart-bar {
+    position: absolute;
+    bottom: 0;
+    background-color: #61dafb;
+    width: 20px;
+    transition: height 0.3s ease;
+  }
+</style>
+
+<Header />
+<main>
+  <h1>Dashboard</h1>
+  <div class="dashboard-container">
+    <div class="timeframe-buttons">
+      {timeFrames.map(timeFrame => (
+        <button data-timeframe={timeFrame} class="timeframe-button">
+          {timeFrame}
+        </button>
+      ))}
+    </div>
+
+    <div class="chart-container">
+      <h2>Blogs Created</h2>
+      <div class="chart"></div>
+      <p class="chart-labels"></p>
+    </div>
+
+    <div class="chart-container">
+      <h2>Users Registered</h2>
+      <p>Number of users registered in the last <span class="selected-timeframe"></span>: 0</p>
+    </div>
+  </div>
+</main>
+<Footer />
+
+<script>
+  const timeFrames = ['1day', '1week', '1month', '1year', 'Max'];
+
+  const blogData = {
+    '1day': [
+      { time: '00:00', count: 1 },
+      { time: '06:00', count: 2 },
+      { time: '12:00', count: 3 },
+      { time: '18:00', count: 4 },
+      { time: '24:00', count: 5 }
+    ],
+    '1week': [
+      { day: 'Mon', count: 2 },
+      { day: 'Tue', count: 5 },
+      { day: 'Wed', count: 8 },
+      { day: 'Thu', count: 12 },
+      { day: 'Fri', count: 15 },
+      { day: 'Sat', count: 18 },
+      { day: 'Sun', count: 20 }
+    ],
+    '1month': [
+      { week: 'Week 1', count: 10 },
+      { week: 'Week 2', count: 25 },
+      { week: 'Week 3', count: 40 },
+      { week: 'Week 4', count: 60 }
+    ],
+    '1year': [
+      { month: 'Jan', count: 20 },
+      { month: 'Feb', count: 40 },
+      { month: 'Mar', count: 60 },
+      { month: 'Apr', count: 80 },
+      { month: 'May', count: 100 },
+      { month: 'Jun', count: 120 },
+      { month: 'Jul', count: 150 },
+      { month: 'Aug', count: 180 },
+      { month: 'Sep', count: 220 },
+      { month: 'Oct', count: 260 },
+      { month: 'Nov', count: 300 },
+      { month: 'Dec', count: 365 }
+    ],
+    'Max': [
+      { year: '2019', count: 100 },
+      { year: '2020', count: 200 },
+      { year: '2021', count: 400 },
+      { year: '2022', count: 700 },
+      { year: '2023', count: 1000 }
+    ]
+  };
+
+  function generateChartData(timeFrame) {
+    const data = blogData[timeFrame];
+    let labels = [];
+    let counts = [];
+
+    if (timeFrame === '1day') {
+      labels = data.map(item => item.time);
+      counts = data.map(item => item.count);
+    } else if (timeFrame === '1week') {
+      labels = data.map(item => item.day);
+      counts = data.map(item => item.count);
+    } else if (timeFrame === '1month') {
+      labels = data.map(item => item.week);
+      counts = data.map(item => item.count);
+    } else if (timeFrame === '1year') {
+      labels = data.map(item => item.month);
+      counts = data.map(item => item.count);
+    } else {
+      labels = data.map(item => item.year);
+      counts = data.map(item => item.count);
+    }
+
+    return { labels, counts };
+  }
+
+  function updateChart(timeFrame) {
+    const chartData = generateChartData(timeFrame);
+    const chartContainer = document.querySelector('.chart');
+    const chartLabelsContainer = document.querySelector('.chart-labels');
+    const selectedTimeFrameElement = document.querySelector('.selected-timeframe');
+
+    chartContainer.innerHTML = '';
+    chartLabelsContainer.innerHTML = '';
+    selectedTimeFrameElement.textContent = timeFrame;
+
+    const maxCount = Math.max(...chartData.counts);
+
+    chartData.labels.forEach((label, index) => {
+      const bar = document.createElement('div');
+      bar.classList.add('chart-bar');
+      bar.style.left = `${(index / chartData.labels.length) * 100}%`;
+      bar.style.height = `${(chartData.counts[index] / maxCount) * 100}%`;
+      chartContainer.appendChild(bar);
+
+      const labelSpan = document.createElement('span');
+      labelSpan.textContent = `${label}: ${chartData.counts[index]} `;
+      chartLabelsContainer.appendChild(labelSpan);
+    });
+  }
+
+  let selectedTimeFrame = '1week';
+  updateChart(selectedTimeFrame);
+
+  const timeFrameButtons = document.querySelectorAll('.timeframe-button');
+  timeFrameButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const timeFrame = button.dataset.timeframe;
+
+      // Remove 'selected' class from all buttons
+      timeFrameButtons.forEach(btn => btn.classList.remove('selected'));
+
+      // Add 'selected' class to the clicked button
+      button.classList.add('selected');
+
+      selectedTimeFrame = timeFrame;
+      updateChart(selectedTimeFrame);
+    });
+  });
+
+  // Set initial selected button
+  const initialSelectedButton = document.querySelector(`.timeframe-button[data-timeframe="${selectedTimeFrame}"]`);
+  if (initialSelectedButton) {
+    initialSelectedButton.classList.add('selected');
+  }
+</script>
