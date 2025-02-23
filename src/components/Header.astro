@@ -16,85 +16,22 @@
     font-size: 1.5rem;
   }
 
-  nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-  }
-
-  nav li {
-    margin-left: 1rem;
-  }
-
   nav a {
     color: #61dafb;
     text-decoration: none;
+    margin-left: 1rem;
     transition: color 0.3s ease;
   }
 
   nav a:hover {
     color: white;
   }
-
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 120px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    padding: 0.5rem;
-    z-index: 1;
-    right: 0;
-  }
-
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-
-  .dropdown-content a {
-    color: black;
-    padding: 0.5rem;
-    text-decoration: none;
-    display: block;
-  }
-
-  .dropdown-content a:hover {
-    background-color: #ddd;
-  }
-
-  .dropbtn {
-    background-color: transparent;
-    color: white;
-    padding: 0.5rem;
-    font-size: 1rem;
-    border: none;
-    cursor: pointer;
-  }
 </style>
 
 <header>
   <h1>My Blog</h1>
   <nav>
-    <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/dashboard">Dashboard</a></li>
-      <li><a href="/analytics">Analytics</a></li>
-      <li><a href="/config">Config</a></li>
-      <li><a href="/signin">SignIn</a></li>
-    </ul>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
   </nav>
-  <div class="dropdown">
-    <button class="dropbtn">&#8942;</button>
-    <div class="dropdown-content">
-      <a href="#">Link 1</a>
-      <a href="#">Link 2</a>
-      <a href="#">Link 3</a>
-    </div>
-  </div>
 </header>
