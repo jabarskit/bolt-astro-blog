@@ -3,6 +3,25 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 ---
 
+<style>
+  body {
+    background-color: rgba(135, 206, 235, 0.1);
+    color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh; /* Ensure full height */
+    margin: 0; /* Reset default margin */
+  }
+
+  main {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+</style>
+
 <Header />
 <main>
   <h1>About Me</h1>

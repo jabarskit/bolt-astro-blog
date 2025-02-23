@@ -109,7 +109,7 @@
 <header>
   <div class="menu-content">
     <div class="menu-icon" id="menuIcon">
-      ☰
+      &#9776;
     </div>
     <a href="/" class="logo">Tripadvisor</a>
   </div>
@@ -137,8 +137,17 @@
     const menuIcon = document.getElementById('menuIcon');
     const sidebar = document.querySelector('.sidebar');
 
-    menuIcon.addEventListener('click', () => {
+    menuIcon.addEventListener('click', (event) => {
       sidebar.classList.toggle('open');
+    });
+
+    document.addEventListener('click', (event) => {
+      const isClickInsideSidebar = sidebar.contains(event.target);
+      const isClickOnMenuIcon = menuIcon.contains(event.target);
+
+      if (!isClickInsideSidebar && !isClickOnMenuIcon && sidebar.classList.contains('open')) {
+        sidebar.classList.remove('open');
+      }
     });
   });
 </script>
