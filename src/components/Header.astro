@@ -3,35 +3,142 @@
 
 <style>
   header {
-    background-color: #282c34;
-    color: white;
-    padding: 1rem;
+    background-color: #fff;
+    color: black;
+    padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
   }
 
-  h1 {
-    margin: 0;
+  .logo {
     font-size: 1.5rem;
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
   }
 
   nav a {
-    color: #61dafb;
+    color: #333;
     text-decoration: none;
-    margin-left: 1rem;
+    margin-left: 1.5rem;
     transition: color 0.3s ease;
+    font-size: 0.9rem;
   }
 
   nav a:hover {
+    color: #007bff;
+  }
+
+  .sign-in-button {
+    background-color: #000;
     color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 1.5rem;
+    transition: background-color 0.3s ease;
+  }
+
+  .sign-in-button:hover {
+    background-color: #333;
+  }
+
+  .menu-icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-right: 1.5rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #f8f9fa;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    padding: 2rem;
+    z-index: 1000;
+    transform: translateX(-100%); /* Initially hide the sidebar */
+  }
+
+  .sidebar.open {
+    transform: translateX(0); /* Show the sidebar */
+  }
+
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .sidebar li {
+    margin-bottom: 1rem;
+  }
+
+  .sidebar a {
+    color: #333;
+    text-decoration: none;
+    font-size: 1rem;
+    display: block;
+    padding: 0.5rem 0;
+    transition: color 0.3s ease;
+  }
+
+  .sidebar a:hover {
+    color: #007bff;
+  }
+
+  .menu-content {
+    display: flex;
+    align-items: center;
   }
 </style>
 
 <header>
-  <h1>My Blog</h1>
+  <div class="menu-content">
+    <div class="menu-icon" id="menuIcon">
+      ☰
+    </div>
+    <a href="/" class="logo">Tripadvisor</a>
+  </div>
   <nav>
-    <a href="/">Home</a>
-    <a href="/about">About</a>
+    <a href="#">Discover</a>
+    <a href="#">Trips</a>
+    <a href="#">Review</a>
+    <a href="#">More</a>
+    <button class="sign-in-button">Sign in</button>
   </nav>
+
+  <div class="sidebar">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/create-post">Create Post</a></li>
+    </ul>
+  </div>
 </header>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const menuIcon = document.getElementById('menuIcon');
+    const sidebar = document.querySelector('.sidebar');
+
+    menuIcon.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+    });
+  });
+</script>
